@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phan Gia Hieu — Personal Website</title>
+  <meta name="description" content="Personal website of Phan Gia Hieu — a friendly, determined, and curious 12-year-old from Da Nang, Vietnam." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep:    #0b0e1a;
+      --bg-dark:    #111527;
+      --bg-card:    #171c30;
+      --bg-card-hover: #1d2340;
+      --accent:     #00d4ff;
+      --accent-mid: #0099ff;
+      --accent-dim: rgba(0, 212, 255, 0.12);
+      --text:       #eaeaea;
+      --text-dim:   #9aa0b8;
+      --white:      #ffffff;
+      --radius:     16px;
+      --radius-sm:  10px;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; color: var(--white); }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(11, 14, 26, 0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+      transition: background 0.3s;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 8px; list-style: none; }
+
+    .nav-links a {
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+      background: var(--accent-dim);
+    }
+
+    /* Mobile hamburger */
+    .nav-toggle { display: none; cursor: pointer; background: none; border: none; padding: 8px; }
+    .nav-toggle span {
+      display: block; width: 24px; height: 2px; background: var(--white);
+      margin: 5px 0; border-radius: 2px; transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(11, 14, 26, 0.97);
+        backdrop-filter: blur(18px);
+        padding: 24px 0;
+        gap: 4px;
+        transform: translateY(-120%);
+        transition: transform 0.4s ease;
+      }
+      .nav-links.open { transform: translateY(0); }
+      .nav-links a { padding: 14px 32px; border-radius: 0; font-size: 1rem; }
+    }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .section {
+      padding: 100px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      padding: 6px 16px;
+      background: var(--accent-dim);
+      border-radius: 999px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* Float-on-hover (universal) */
+    .hoverable {
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .hoverable:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 212, 255, 0.1);
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated bg gradient */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      animation: pulse 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1)   translate(0, 0); }
+      100% { transform: scale(1.3) translate(-60px, 40px); }
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text .greeting {
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-text h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent-mid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-text p {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-tags span {
+      padding: 8px 18px;
+      background: var(--bg-card);
+      border: 1px solid rgba(0,212,255,0.12);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      transition: var(--transition);
+    }
+
+    .hero-tags span:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .hero-image-wrap {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-mid));
+      opacity: 0.15;
+      filter: blur(60px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-avatar {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(0,212,255,0.25);
+      position: relative;
+      z-index: 1;
+      transition: var(--transition);
+    }
+
+    .hero-avatar:hover {
+      transform: translateY(-10px) scale(1.03);
+      border-color: var(--accent);
+      box-shadow: 0 30px 60px rgba(0,212,255,0.15);
+    }
+
+    .dragon-decoration {
+      position: absolute;
+      bottom: -30px;
+      right: -20px;
+      width: 140px;
+      opacity: 0.6;
+      border-radius: 12px;
+      z-index: 2;
+      transition: var(--transition);
+    }
+    .dragon-decoration:hover {
+      opacity: 1;
+      transform: translateY(-8px) rotate(-3deg);
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      .hero-text p { margin: 0 auto 32px; }
+      .hero-tags { justify-content: center; }
+      .hero-avatar { width: 240px; height: 240px; }
+    }
+
+    /* ============================================================
+       HOMETOWN
+       ============================================================ */
+    #hometown {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .hometown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .hometown-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .hometown-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 212, 255, 0.1);
+    }
+
+    .hometown-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .hometown-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .hometown-card .card-label {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hometown-card .card-label .icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .hometown-card .card-label h4 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .hometown-card .card-label p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .hometown-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       HOBBIES
+       ============================================================ */
+    .hobbies-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .hobby-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 40px 28px;
+      text-align: center;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .hobby-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0,212,255,0.1);
+      border-color: rgba(0,212,255,0.2);
+    }
+
+    .hobby-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--accent-dim), rgba(0,153,255,0.1));
+      border: 2px solid rgba(0,212,255,0.15);
+      transition: var(--transition);
+    }
+
+    .hobby-card:hover .hobby-icon {
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,153,255,0.2));
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .hobby-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .hobby-card p {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .hobbies-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       FAVOURITES
+       ============================================================ */
+    #favourites {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .fav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .fav-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .fav-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0,212,255,0.1);
+      border-color: rgba(0,212,255,0.2);
+    }
+
+    .fav-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .fav-header .fav-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-dim), rgba(0,153,255,0.12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .fav-card:hover .fav-icon {
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,153,255,0.2));
+      transform: scale(1.1);
+    }
+
+    .fav-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .fav-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fav-items li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .fav-items li:hover {
+      background: var(--accent-dim);
+      transform: translateX(6px);
+    }
+
+    .fav-items li .emoji { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      .fav-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       GAMES
+       ============================================================ */
+    .game-wrapper {
+      margin-top: 48px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .game-wrapper:hover {
+      box-shadow: 0 20px 50px rgba(0,212,255,0.08);
+    }
+
+    .game-wrapper h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .game-wrapper > p {
+      color: var(--text-dim);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    #game-canvas {
+      background: #0d3b0d;
+      border-radius: var(--radius-sm);
+      border: 2px solid rgba(0,212,255,0.15);
+      cursor: crosshair;
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .game-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .game-stat {
+      text-align: center;
+    }
+
+    .game-stat .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .game-stat .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .game-btn {
+      margin-top: 20px;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-mid));
+      color: var(--bg-deep);
+      border: none;
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .game-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,212,255,0.3);
+    }
+
+    .game-message {
+      margin-top: 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-height: 30px;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      text-align: center;
+      padding: 40px 32px;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    footer span { color: var(--accent); }
+
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.4); }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Hieu<span>.</span></a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="active">About</a></li>
+        <li><a href="#hometown">Hometown</a></li>
+        <li><a href="#hobbies">Hobbies</a></li>
+        <li><a href="#favourites">Favourites</a></li>
+        <li><a href="#games">Games</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO / ABOUT ME ========== -->
+  <section id="hero" class="section">
+    <div class="hero-inner">
+      <div class="hero-text reveal">
+        <p class="greeting">👋 Hello, I'm</p>
+        <h1>Phan Gia <span class="highlight">Hieu</span></h1>
+        <p>My name is Phan Gia Hieu, and I'm 12 years old. I'm a friendly, determined, and curious person who enjoys both the real world and the digital world. I love playing football, chess, and basketball, and I'm always patient and good at understanding others. I can think clearly and find solutions fast, and I'm proud of where I come from.</p>
+        <div class="hero-tags">
+          <span>⚽ Football</span>
+          <span>♟️ Chess</span>
+          <span>🏀 Basketball</span>
+          <span>🎮 Gamer</span>
+          <span>🧠 Problem Solver</span>
+          <span>🇻🇳 Da Nang</span>
+        </div>
+      </div>
+      <div class="hero-image-wrap reveal">
+        <img src="MyPic.jpg" alt="Phan Gia Hieu" class="hero-avatar" />
+        <img src="dragon.jpg" alt="Dragon art" class="dragon-decoration" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOMETOWN ========== -->
+  <section id="hometown">
+    <div class="section">
+      <div class="reveal">
+        <span class="section-label">Where I'm From</span>
+        <h2 class="section-title">My Hometown — Da Nang 🇻🇳</h2>
+        <p class="section-subtitle">Da Nang is a beautiful coastal city in central Vietnam, known for its golden beaches, stunning bridges, and rich culture. It's a city that blends modern life with breathtaking nature — and it's the place I'm proud to call home.</p>
+      </div>
+
+      <div class="hometown-grid">
+        <div class="hometown-card reveal">
+          <img src="Pictures/bana hils.jfif" alt="Ba Na Hills — Golden Bridge" />
+          <div class="card-label">
+            <div class="icon">🌉</div>
+            <div>
+              <h4>Golden Bridge — Ba Na Hills</h4>
+              <p>Held by giant stone hands above the clouds</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hometown-card reveal">
+          <img src="Pictures/cau rong.webp" alt="Dragon Bridge at night" />
+          <div class="card-label">
+            <div class="icon">🐉</div>
+            <div>
+              <h4>Dragon Bridge — Cầu Rồng</h4>
+              <p>Breathes real fire & water on weekends!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hometown-card reveal">
+          <img src="Pictures/paho hoa.webp" alt="Da Nang Fireworks Festival" />
+          <div class="card-label">
+            <div class="icon">🎆</div>
+            <div>
+              <h4>International Fireworks Festival</h4>
+              <p>A world-famous celebration of light & color</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOBBIES ========== -->
+  <section id="hobbies" class="section">
+    <div class="reveal">
+      <span class="section-label">What I Love</span>
+      <h2 class="section-title">My Hobbies</h2>
+      <p class="section-subtitle">Whether it's on the field, the court, or the board — I love a good challenge.</p>
+    </div>
+
+    <div class="hobbies-grid">
+      <div class="hobby-card reveal">
+        <div class="hobby-icon">⚽</div>
+        <h3>Football</h3>
+        <p>Football is my favourite sport. There's nothing like the thrill of dribbling past defenders and scoring a goal. I love playing with my friends and learning from the best players in the world. The teamwork and strategy make every match exciting.</p>
+      </div>
+
+      <div class="hobby-card reveal">
+        <div class="hobby-icon">🏀</div>
+        <h3>Basketball</h3>
+        <p>Basketball is fast, intense, and incredibly fun. I enjoy the quick thinking it requires — making split-second decisions on the court. Whether it's a layup or a three-pointer, every shot feels like a small victory. The energy of the game keeps me coming back.</p>
+      </div>
+
+      <div class="hobby-card reveal">
+        <div class="hobby-icon">♟️</div>
+        <h3>Chess</h3>
+        <p>Chess is where I sharpen my mind. It's a battle of strategy and patience — every move matters. I love thinking several steps ahead and outsmarting my opponent. It's taught me discipline, planning, and how to stay calm under pressure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAVOURITES ========== -->
+  <section id="favourites">
+    <div class="section">
+      <div class="reveal">
+        <span class="section-label">Things I Like</span>
+        <h2 class="section-title">My Favourites</h2>
+        <p class="section-subtitle">A glimpse into the things that make me smile.</p>
+      </div>
+
+      <div class="fav-grid">
+        <div class="fav-card reveal">
+          <div class="fav-header">
+            <div class="fav-icon">🍕</div>
+            <h3>Favourite Food</h3>
+          </div>
+          <ul class="fav-items">
+            <li><span class="emoji">🍕</span> Pizza — Cheesy, crispy, and always a good idea</li>
+            <li><span class="emoji">🍜</span> Noodles — A warm bowl of comfort</li>
+            <li><span class="emoji">🦀</span> Crab — Fresh seafood from Da Nang!</li>
+          </ul>
+        </div>
+
+        <div class="fav-card reveal">
+          <div class="fav-header">
+            <div class="fav-icon">🎨</div>
+            <h3>Favourite Color</h3>
+          </div>
+          <ul class="fav-items">
+            <li style="background: linear-gradient(135deg, rgba(0,100,255,0.1), rgba(0,180,255,0.08)); border: 1px solid rgba(0,150,255,0.15);">
+              <span class="emoji">💙</span>
+              <span><strong style="color: #4da6ff;">Blue</strong> — The color of the sky, the ocean, and my hometown Da Nang. It represents calm, trust, and endless possibility.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fav-card reveal">
+          <div class="fav-header">
+            <div class="fav-icon">📚</div>
+            <h3>Favourite Books</h3>
+          </div>
+          <ul class="fav-items">
+            <li><span class="emoji">🤖</span> Neuromancer — A cyberpunk classic by William Gibson</li>
+            <li><span class="emoji">📖</span> ...and many more to discover!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GAMES ========== -->
+  <section id="games" class="section">
+    <div class="reveal">
+      <span class="section-label">Play Time</span>
+      <h2 class="section-title">Penalty Kick ⚽</h2>
+      <p class="section-subtitle">Think you can score? Aim for the corners — the keeper's watching!</p>
+    </div>
+
+    <div class="game-wrapper reveal">
+      <h3>⚽ Penalty Shootout</h3>
+      <p>Click on the goal to aim your shot. Score as many as you can in 5 attempts!</p>
+      <canvas id="game-canvas" width="600" height="400"></canvas>
+      <div class="game-stats">
+        <div class="game-stat">
+          <div class="stat-value" id="stat-goals">0</div>
+          <div class="stat-label">Goals</div>
+        </div>
+        <div class="game-stat">
+          <div class="stat-value" id="stat-attempts">0</div>
+          <div class="stat-label">Attempts</div>
+        </div>
+        <div class="game-stat">
+          <div class="stat-value" id="stat-round">1</div>
+          <div class="stat-label">Round</div>
+        </div>
+      </div>
+      <p class="game-message" id="game-message">Click on the goal to shoot!</p>
+      <button class="game-btn" id="game-reset" style="display:none;">Play Again</button>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <p>Made with 💙 by <span>Phan Gia Hieu</span> — Da Nang, Vietnam &copy; 2026</p>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ---- MOBILE NAV ----
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks  = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // ---- ACTIVE NAV ON SCROLL ----
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (scrollY >= top) current = sec.getAttribute('id');
+      });
+      navItems.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+      });
+    });
+
+    // ---- SCROLL REVEAL ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // =============================================
+    // PENALTY KICK GAME
+    // =============================================
+    (function() {
+      const canvas  = document.getElementById('game-canvas');
+      const ctx     = canvas.getContext('2d');
+      const msgEl   = document.getElementById('game-message');
+      const resetBtn = document.getElementById('game-reset');
+      const statGoals    = document.getElementById('stat-goals');
+      const statAttempts = document.getElementById('stat-attempts');
+      const statRound    = document.getElementById('stat-round');
+
+      const MAX_ROUNDS = 5;
+      let goals = 0, attempts = 0, animating = false;
+
+      // Field dimensions (relative to canvas)
+      const field = {
+        goalTop:    60,
+        goalBottom: 220,
+        goalLeft:   120,
+        goalRight:  480,
+        goalHeight: 160,
+        netColor:   'rgba(255,255,255,0.08)',
+      };
+
+      // Keeper
+      let keeper = { x: 300, y: 140, w: 60, h: 80, targetX: 300 };
+
+      // Ball
+      let ball = { x: 300, y: 340, radius: 14, shootX: 300, shootY: 340, targetX: 0, targetY: 0, t: 0, shooting: false };
+
+      function drawField() {
+        // Grass
+        const grass = ctx.createLinearGradient(0, 0, 0, 400);
+        grass.addColorStop(0, '#1a5c1a');
+        grass.addColorStop(1, '#0d3b0d');
+        ctx.fillStyle = grass;
+        ctx.fillRect(0, 0, 600, 400);
+
+        // Grass lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 600; i += 30) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i, 400);
+          ctx.stroke();
+        }
+
+        // Penalty box
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(80, 0, 440, 280);
+
+        // 6-yard box
+        ctx.strokeRect(180, 0, 240, 120);
+
+        // Goal frame
+        ctx.fillStyle = 'rgba(0,0,0,0.3)';
+        ctx.fillRect(field.goalLeft, field.goalTop, field.goalRight - field.goalLeft, field.goalHeight);
+
+        // Net pattern
+        ctx.strokeStyle = field.netColor;
+        ctx.lineWidth = 1;
+        for (let x = field.goalLeft; x <= field.goalRight; x += 20) {
+          ctx.beginPath();
+          ctx.moveTo(x, field.goalTop);
+          ctx.lineTo(x, field.goalTop + field.goalHeight);
+          ctx.stroke();
+        }
+        for (let y = field.goalTop; y <= field.goalTop + field.goalHeight; y += 20) {
+          ctx.beginPath();
+          ctx.moveTo(field.goalLeft, y);
+          ctx.lineTo(field.goalRight, y);
+          ctx.stroke();
+        }
+
+        // Goal posts
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(field.goalLeft - 6, field.goalTop, 8, field.goalHeight + 4);
+        ctx.fillRect(field.goalRight - 2, field.goalTop, 8, field.goalHeight + 4);
+        ctx.fillRect(field.goalLeft - 6, field.goalTop - 6, field.goalRight - field.goalLeft + 14, 8);
+
+        // Post shadows
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
+        ctx.fillRect(field.goalLeft + 2, field.goalTop + 2, 4, field.goalHeight);
+        ctx.fillRect(field.goalRight + 2, field.goalTop + 2, 4, field.goalHeight);
+
+        // Penalty spot
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(300, 340, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Center circle arc (partial)
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(300, 280, 60, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+      }
+
+      function drawKeeper() {
+        const kx = keeper.x - keeper.w / 2;
+        const ky = keeper.y - keeper.h / 2;
+
+        // Shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        ctx.beginPath();
+        ctx.ellipse(keeper.x, keeper.y + keeper.h / 2 + 4, 22, 6, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Body
+        ctx.fillStyle = '#ffcc00';
+        ctx.fillRect(kx + 10, ky + 20, 40, 40);
+
+        // Head
+        ctx.fillStyle = '#f5c9a0';
+        ctx.beginPath();
+        ctx.arc(keeper.x, ky + 14, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Gloves
+        ctx.fillStyle = '#00d4ff';
+        ctx.beginPath();
+        ctx.arc(kx + 4, ky + 30, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(kx + keeper.w - 4, ky + 30, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Legs
+        ctx.fillStyle = '#222';
+        ctx.fillRect(kx + 14, ky + 58, 10, 22);
+        ctx.fillRect(kx + 36, ky + 58, 10, 22);
+      }
+
+      function drawBall(x, y) {
+        // Shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        ctx.beginPath();
+        ctx.ellipse(x, 350, ball.radius, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Ball
+        const grad = ctx.createRadialGradient(x - 4, y - 4, 2, x, y, ball.radius);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#cccccc');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(x, y, ball.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pentagon patches
+        ctx.fillStyle = '#333';
+        ctx.beginPath();
+        ctx.arc(x - 3, y - 3, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + 5, y + 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, 600, 400);
+        drawField();
+        drawKeeper();
+        if (!ball.shooting) {
+          drawBall(ball.x, ball.y);
+        }
+      }
+
+      function animateShot(targetX, targetY) {
+        animating = true;
+        ball.shooting = true;
+        ball.t = 0;
+        ball.shootX = ball.x;
+        ball.shootY = ball.y;
+        ball.targetX = targetX;
+        ball.targetY = targetY;
+
+        // Keeper dives to a random zone
+        const zones = [field.goalLeft + 40, 300, field.goalRight - 40];
+        keeper.targetX = zones[Math.floor(Math.random() * zones.length)];
+
+        const startKeeperX = keeper.x;
+
+        function tick() {
+          ball.t += 0.035;
+          if (ball.t > 1) ball.t = 1;
+
+          const ease = 1 - Math.pow(1 - ball.t, 3);
+
+          // Ball position
+          const bx = ball.shootX + (ball.targetX - ball.shootX) * ease;
+          const by = ball.shootY + (ball.targetY - ball.shootY) * ease;
+
+          // Ball size (shrinks as it goes toward goal)
+          const scale = 1 - ease * 0.4;
+
+          // Keeper dives
+          keeper.x = startKeeperX + (keeper.targetX - startKeeperX) * ease;
+
+          ctx.clearRect(0, 0, 600, 400);
+          drawField();
+          drawKeeper();
+
+          // Draw ball in-flight
+          ctx.save();
+          const grad = ctx.createRadialGradient(bx - 3, by - 3, 2, bx, by, ball.radius * scale);
+          grad.addColorStop(0, '#ffffff');
+          grad.addColorStop(1, '#cccccc');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(bx, by, ball.radius * scale, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#333';
+          ctx.beginPath();
+          ctx.arc(bx - 2, by - 2, 3 * scale, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          if (ball.t < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            // Check result
+            const saved = Math.abs(ball.targetX - keeper.targetX) < 60 &&
+                          ball.targetY >= field.goalTop && ball.targetY <= field.goalTop + field.goalHeight;
+
+            const onTarget = ball.targetX > field.goalLeft + 10 &&
+                             ball.targetX < field.goalRight - 10 &&
+                             ball.targetY > field.goalTop + 5 &&
+                             ball.targetY < field.goalTop + field.goalHeight - 5;
+
+            if (onTarget && !saved) {
+              goals++;
+              statGoals.textContent = goals;
+              msgEl.textContent = '🎉 GOAL! Amazing shot!';
+              msgEl.style.color = '#00ff88';
+              flashGoal();
+            } else if (!onTarget) {
+              msgEl.textContent = '😬 Missed! Off target...';
+              msgEl.style.color = '#ff6b6b';
+            } else {
+              msgEl.textContent = '🧤 Saved by the keeper!';
+              msgEl.style.color = '#ffcc00';
+            }
+
+            attempts++;
+            statAttempts.textContent = attempts;
+            statRound.textContent = Math.min(attempts + 1, MAX_ROUNDS);
+
+            if (attempts >= MAX_ROUNDS) {
+              setTimeout(() => {
+                msgEl.textContent = `Game Over! You scored ${goals}/${MAX_ROUNDS} penalties! 🏆`;
+                msgEl.style.color = 'var(--accent)';
+                resetBtn.style.display = 'inline-block';
+              }, 800);
+            }
+
+            // Reset ball & keeper
+            setTimeout(() => {
+              ball.shooting = false;
+              ball.x = 300;
+              ball.y = 340;
+              keeper.x = 300;
+              animating = false;
+              if (attempts < MAX_ROUNDS) render();
+            }, 600);
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      function flashGoal() {
+        let flashes = 0;
+        const interval = setInterval(() => {
+          ctx.fillStyle = `rgba(0, 255, 136, ${0.15 - flashes * 0.025})`;
+          ctx.fillRect(field.goalLeft, field.goalTop, field.goalRight - field.goalLeft, field.goalHeight);
+          flashes++;
+          if (flashes > 5) clearInterval(interval);
+        }, 80);
+      }
+
+      // Click handler
+      canvas.addEventListener('click', (e) => {
+        if (animating || attempts >= MAX_ROUNDS) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const clickX = (e.clientX - rect.left) * scaleX;
+        const clickY = (e.clientY - rect.top)  * scaleY;
+
+        animateShot(clickX, clickY);
+      });
+
+      // Reset
+      resetBtn.addEventListener('click', () => {
+        goals = 0;
+        attempts = 0;
+        ball.x = 300;
+        ball.y = 340;
+        keeper.x = 300;
+        ball.shooting = false;
+        animating = false;
+        statGoals.textContent = '0';
+        statAttempts.textContent = '0';
+        statRound.textContent = '1';
+        msgEl.textContent = 'Click on the goal to shoot!';
+        msgEl.style.color = 'var(--accent)';
+        resetBtn.style.display = 'none';
+        render();
+      });
+
+      // Initial render
+      render();
+    })();
+  </script>
+
+</body>
+</html>
